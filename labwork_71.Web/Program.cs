@@ -27,6 +27,8 @@ builder.Services.AddScoped<IValidatorRepository, ValidatorRepository>();
 builder.Services.AddScoped<IValidatorService, Validator>();
 builder.Services.AddScoped<ICafeRepository, CafeRepository>();
 builder.Services.AddScoped<ICafeService, CafeService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
