@@ -26,3 +26,16 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+body {
+  margin-bottom: 0;
+  min-height: 100vh;
+  display: block !important;
+}
+
+main {
+  display: block !important;
+  min-height: auto !important;
+  align-items: initial !important;
+  justify-content: initial !important;
+}

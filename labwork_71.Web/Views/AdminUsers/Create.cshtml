@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Добавить пользователя";
+}
+
+<div class="container pt-4">
+    <h2 class="mb-4">Добавить пользователя</h2>
+
+    <form asp-controller="AdminUsers" asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Имя пользователя</label>
+            <input type="text" name="userName" class="form-control" />
+            @Html.ValidationMessage("userName", "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" />
+            @Html.ValidationMessage("email", "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Телефон</label>
+            <input type="text" name="phoneNumber" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Пароль</label>
+            <input type="password" name="password" class="form-control" />
+            @Html.ValidationMessage("password", "", new { @class = "text-danger" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Добавить
+        </button>
+
+        <a asp-controller="AdminUsers" asp-action="Index" class="btn btn-secondary">
+            Назад
+        </a>
+    </form>
+</div>
