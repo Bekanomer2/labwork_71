@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace labwork_71.Controllers;
 
-[Authorize(Roles = "admin")]
+
 public class CafeController : Controller
 {
     private readonly ICafeService _cafeService;
@@ -25,12 +25,14 @@ public class CafeController : Controller
         return View(cafes);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(string name, string description, IFormFile? image)
@@ -81,6 +83,7 @@ public class CafeController : Controller
         return RedirectToAction("Index");
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)

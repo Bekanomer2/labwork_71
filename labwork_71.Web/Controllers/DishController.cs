@@ -81,9 +81,14 @@ public class DishController : Controller
     
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, int? cafeId)
     {
         await _dishService.DeleteAsync(id);
+        
+        if (cafeId.HasValue)
+        {
+            return RedirectToAction("Details", "Cafe", new { id = cafeId.Value });
+        }
 
         return RedirectToAction("Index");
     }

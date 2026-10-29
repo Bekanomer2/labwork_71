@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Личный кабинет администратора";
+}
+
+<div class="container pt-4">
+
+    <h2 class="mb-4">Личный кабинет администратора</h2>
+
+    <div class="row g-4">
+
+        <div class="col-12 col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Заведения</h5>
+                    <p class="card-text">Добавление и удаление заведений.</p>
+
+                    <a asp-controller="Cafe" asp-action="Index" class="btn btn-primary">
+                        Перейти
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Пользователи</h5>
+                    <p class="card-text">Добавление, удаление и управление ролями пользователей.</p>
+
+                    <a asp-controller="AdminUsers" asp-action="Index" class="btn btn-primary">
+                        Перейти
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Блюда</h5>
+                    <p class="card-text">Добавление и удаление блюд.</p>
+
+                    <a asp-controller="Dish" asp-action="Index" class="btn btn-primary">
+                        Перейти
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
