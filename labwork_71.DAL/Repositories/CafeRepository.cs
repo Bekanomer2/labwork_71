@@ -21,7 +21,7 @@ public class CafeRepository : ICafeRepository
 
     public async Task<Cafe?> GetByIdAsync(int id)
     {
-        return await _context.Cafes.FirstOrDefaultAsync(cafe => cafe.Id == id);
+        return await _context.Cafes.Include(cafe => cafe.Dishes).FirstOrDefaultAsync(cafe => cafe.Id == id);
     }
 
     public async Task AddAsync(Cafe cafe)

@@ -1,0 +1,61 @@
+﻿@model List<labwork_71.Models.Dish>
+
+@{
+    ViewData["Title"] = "Блюда";
+}
+
+<div class="container pt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Блюда</h2>
+
+        <a asp-controller="Dish" asp-action="Create" class="btn btn-primary">
+            Добавить блюдо
+        </a>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <p>Блюд пока нет.</p>
+    }
+    else
+    {
+        <table class="table table-bordered align-middle">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Описание</th>
+                <th>Заведение</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var dish in Model)
+            {
+                <tr>
+                    <td>@dish.Id</td>
+                    <td>@dish.Name</td>
+                    <td>@dish.Price</td>
+                    <td>@dish.Description</td>
+                    <td>@dish.Cafe?.Name</td>
+
+                    <td>
+                        <form asp-controller="Dish" asp-action="Delete" asp-route-id="@dish.Id" method="post" class="d-inline" onsubmit="return confirm('Вы действительно хотите удалить это блюдо?');">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                Удалить
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+
+</div>

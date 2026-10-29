@@ -89,4 +89,17 @@ public class CafeController : Controller
 
         return RedirectToAction("Index");
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> Details(int id)
+    {
+        Cafe? cafe = await _cafeService.GetByIdAsync(id);
+
+        if (cafe == null)
+        {
+            return NotFound();
+        }
+
+        return View(cafe);
+    }
 }
