@@ -1,3 +1,4 @@
+﻿@using labwork_71.Extensions
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -68,6 +69,13 @@
 
 <main role="main" class="flex-grow-1 d-flex flex-column justify-content-center">
     @RenderBody()
+    <div id="cartContainer">
+        @await Html.PartialAsync(
+            "_CartPartial",
+            Context.Session.GetObject<labwork_71.ViewModels.CartViewModel>("Cart")
+            ?? new labwork_71.ViewModels.CartViewModel()
+                )
+    </div>
 </main>
 
 <footer class="border-top py-3 bg-white text-muted mt-auto">

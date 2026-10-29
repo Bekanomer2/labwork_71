@@ -25,6 +25,9 @@ builder.Services.AddDbContext<FoodOrdersContext>(options => options.UseNpgsql(co
     .AddEntityFrameworkStores<FoodOrdersContext>();
 builder.Services.AddScoped<IValidatorRepository, ValidatorRepository>();
 builder.Services.AddScoped<IValidatorService, Validator>();
+builder.Services.AddScoped<IDishRepository, DishRepository>();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,6 +40,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -1,0 +1,27 @@
+@model labwork_71.ViewModels.CartViewModel
+
+<div class="cart-sidebar">
+    @if (Model.Items.Count == 0)
+    {
+        <p>Корзина пуста</p>
+    }
+    else
+    {
+        foreach (var item in Model.Items)
+        {
+            <div class="cart-item">
+                <h5>@item.Name</h5>
+                <p>Цена: @item.Price сом</p>
+                <p>Количество порций/шт: @item.Quantity</p>
+                <p>Общая стоимость: @item.TotalPrice сом</p>
+                <button type="button" class="remove-from cart"
+                        data-dish-id="@item.DishId"> Удалить </button>
+            </div>
+        }
+
+        <hr/>
+        <strong>Общая сумма: @Model.TotalPrice сом</strong>
+
+    }
+
+</div>
