@@ -27,5 +27,6 @@ public class RegisterViewModel
     public string? Password { get; set; }
     [Compare(nameof(Password), ErrorMessage = "Пароли не совпадают")]
     [DataType(DataType.Password)]
+    [Display(Name = "Подтвердите пароль")]
     public string? ConfirmPassword { get; set; }
 }
