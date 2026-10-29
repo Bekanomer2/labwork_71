@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Добавить заведение";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Добавить заведение</h2>
+
+    <form asp-controller="Cafe" asp-action="Create" method="post" enctype="multipart/form-data">
+
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label class="form-label">Название</label>
+            <input type="text" name="name" class="form-control" />
+
+            @Html.ValidationMessage("Name", "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Описание</label>
+            <textarea name="description" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Изображение</label>
+            <input type="file" name="image" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Добавить
+        </button>
+
+        <a asp-controller="Cafe" asp-action="Index" class="btn btn-secondary">
+            Назад
+        </a>
+    </form>
+</div>
