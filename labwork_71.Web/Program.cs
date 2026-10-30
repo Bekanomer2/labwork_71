@@ -26,7 +26,7 @@ builder.Services.AddDbContext<FoodOrdersContext>(options => options.UseNpgsql(co
 
 builder.Services.AddScoped<IValidatorRepository, ValidatorRepository>();
 builder.Services.AddScoped<IValidatorService, Validator>();
-builder.Services.AddScoped<IDishRepository, DishRepository>();
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
