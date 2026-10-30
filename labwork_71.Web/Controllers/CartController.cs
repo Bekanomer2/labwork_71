@@ -122,7 +122,4 @@ public class CartController : Controller
 
         return PartialView("_CartPartial", cart);
     }
-
-    [HttpGet]
-    public IActionResult CetCart() => GetCart();
 }
