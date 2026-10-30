@@ -1,0 +1,65 @@
+﻿@using labwork_71.Models
+
+@{
+    ViewData["Title"] = "Добавить блюдо";
+
+    List<Cafe> cafes =
+        ViewBag.Cafes as List<Cafe>
+        ?? new List<Cafe>();
+}
+
+<div class="container pt-4">
+
+    <h2 class="mb-4">Добавить блюдо</h2>
+
+    <form asp-controller="Dish" asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Название</label>
+            <input type="text" name="name" class="form-control" required />
+            @Html.ValidationMessage("name", "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Цена</label>
+            <input type="number" name="price" step="0.01" min="0.01" class="form-control" required />
+            @Html.ValidationMessage("price", "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Описание</label>
+            <textarea name="description" class="form-control" required></textarea>
+            @Html.ValidationMessage("description", "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Заведение</label>
+
+            <select name="cafeId" class="form-select" required>
+                <option value="">Выберите заведение</option>
+
+                @foreach (Cafe cafe in cafes)
+                {
+                    if (ViewBag.SelectedCafeId != null && cafe.Id == (int)ViewBag.SelectedCafeId)
+                    {
+                        <option value="@cafe.Id" selected>@cafe.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@cafe.Id">@cafe.Name</option>
+                    }
+                }
+            </select>
+
+            @Html.ValidationMessage("cafeId", "", new { @class = "text-danger" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">Добавить</button>
+
+        <a asp-controller="Dish" asp-action="Index" class="btn btn-secondary">Назад</a>
+    </form>
+
+</div>

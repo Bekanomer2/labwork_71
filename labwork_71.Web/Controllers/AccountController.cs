@@ -60,7 +60,7 @@ public class AccountController : Controller
             {
                 await _userManager.AddToRoleAsync(userToCreate, "user");
                 await _signInManager.SignInAsync(userToCreate, isPersistent: false);
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("Index", "Cafe");
             }
             foreach (var error in result.Errors)
                 ModelState.AddModelError(string.Empty, error.Description);
@@ -69,8 +69,14 @@ public class AccountController : Controller
         return View(model);
     }
     
+    [HttpGet]
     public IActionResult Login(string? returnUrl)
     {
+        if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Cafe");
+        }
+        
         return View(new LoginViewModel { ReturnUrl = returnUrl });
     }
 
@@ -95,7 +101,7 @@ public class AccountController : Controller
                     {
                         return Redirect(model.ReturnUrl);
                     }
-                    return RedirectToAction("Index", "User");
+                    return RedirectToAction("Index", "Cafe");
                 }
             }
             ModelState.AddModelError("", "Неправильный логин и (или) пароль");

@@ -23,11 +23,22 @@ builder.Services.AddDbContext<FoodOrdersContext>(options => options.UseNpgsql(co
         options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯөүңӨҮҢ";
     })
     .AddEntityFrameworkStores<FoodOrdersContext>();
+
 builder.Services.AddScoped<IValidatorRepository, ValidatorRepository>();
 builder.Services.AddScoped<IValidatorService, Validator>();
 builder.Services.AddScoped<IDishRepository, DishRepository>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+
+builder.Services.AddScoped<ICafeRepository, CafeRepository>();
+builder.Services.AddScoped<ICafeService, CafeService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IDishRepository, DishRepository>();
+builder.Services.AddScoped<IDishService, DishService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,7 +59,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Account}/{action=Login}/{id?}")
+        pattern: "{controller=Cafe}/{action=Index}/{id?}")
     .WithStaticAssets();
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
