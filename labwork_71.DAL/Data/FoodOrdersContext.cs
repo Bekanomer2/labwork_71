@@ -10,5 +10,8 @@ public class FoodOrdersContext : IdentityDbContext<User, IdentityRole<int>, int>
     public DbSet<User> Users { get; set; }
     public DbSet<Cafe> Cafes { get; set; }
     public DbSet<Dish> Dishes { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
+
     public FoodOrdersContext(DbContextOptions options) : base(options) { }
 }

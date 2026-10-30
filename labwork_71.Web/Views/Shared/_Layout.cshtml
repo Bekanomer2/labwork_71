@@ -1,4 +1,8 @@
-﻿@using labwork_71.Extensions
+@using labwork_71.Extensions
+@{
+    var cart = Context.Session.GetObject<labwork_71.ViewModels.CartViewModel>("Cart");
+    var cartCount = cart?.Items.Sum(i => i.Quantity) ?? 0;
+}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -11,6 +15,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
+
+<!-- Сайдбар корзины слева (Offcanvas) -->
+<div class="offcanvas offcanvas-start shadow" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+    <div class="offcanvas-header border-bottom bg-light py-3">
+        <h5 class="offcanvas-title fw-bold d-flex align-items-center mb-0" id="cartOffcanvasLabel">
+            <i class="bi bi-cart3 text-primary me-2 fs-4"></i>Корзина
+        </h5>
+        <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
+    </div>
+    <div class="offcanvas-body p-0 d-flex flex-column" id="cartContainer">
+        @await Html.PartialAsync("_CartPartial", cart ?? new labwork_71.ViewModels.CartViewModel())
+    </div>
+</div>
+
 <header>
     <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom shadow-sm">
         <div class="container">
@@ -23,13 +41,27 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <!-- Левая часть навигации: Все заведения + Кнопка открытия корзины -->
+                <ul class="navbar-nav me-auto mb-2 mb-md-0 d-flex align-items-md-center">
                     <li class="nav-item">
                         <a class="nav-link text-dark fw-medium d-flex align-items-center" asp-controller="Cafe" asp-action="Index">
                             <i class="bi bi-shop me-1 text-secondary"></i>Все заведения
                         </a>
                     </li>
+                    <li class="nav-item ms-md-2 mt-2 mt-md-0">
+                        <button class="btn btn-outline-primary btn-sm rounded-pill px-3 d-flex align-items-center shadow-none"
+                                type="button"
+                                data-bs-toggle="offcanvas"
+                                data-bs-target="#cartOffcanvas"
+                                aria-controls="cartOffcanvas">
+                            <i class="bi bi-cart3 me-1 fs-6"></i>
+                            <span>Корзина</span>
+                            <span id="cartBadge" class="badge bg-primary text-white ms-2 rounded-pill">@cartCount</span>
+                        </button>
+                    </li>
                 </ul>
+
+                <!-- Правая часть: Авторизация и ЛК -->
                 <ul class="navbar-nav align-items-md-center">
                     @if (User.Identity?.IsAuthenticated == true)
                     {
@@ -37,30 +69,37 @@
                         {
                             <li class="nav-item me-md-2 mb-2 mb-md-0">
                                 <a class="nav-link text-dark fw-medium d-flex align-items-center"
-                                   asp-controller="AdminUsers"
-                                   asp-action="Index">
-                                    <i class="bi bi-people me-1 text-secondary"></i>
-                                    Пользователи
+                                   asp-controller="AdminUsers" asp-action="Index">
+                                    <i class="bi bi-people me-1 text-secondary"></i>Пользователи
                                 </a>
                             </li>
-                        }
-                        @if (User.IsInRole("admin"))
-                        {
+                            <li class="nav-item me-md-2 mb-2 mb-md-0">
+                                <a class="nav-link text-dark fw-medium d-flex align-items-center"
+                                   asp-controller="Admin" asp-action="Orders">
+                                    <i class="bi bi-list-check me-1 text-secondary"></i>Заказы
+                                </a>
+                            </li>
                             <li class="nav-item me-md-2 mb-2 mb-md-0">
                                 <a class="nav-link text-dark fw-medium d-flex align-items-center" asp-controller="Admin" asp-action="Index">
                                     <i class="bi bi-person-circle fs-5 me-1 text-primary"></i>
                                     <span>Личный кабинет</span>
-                                    <span class="badge bg-primary-subtle text-primary ms-1 small">@User.Identity.Name</span>
+                                    <span class="badge bg-primary-subtle text-primary ms-1 small">@User.Identity!.Name</span>
                                 </a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item me-md-2 mb-2 mb-md-0">
+                                <a class="nav-link text-dark fw-medium d-flex align-items-center"
+                                   asp-controller="Order" asp-action="MyOrders">
+                                    <i class="bi bi-clock-history me-1 text-secondary"></i>Мои заказы
+                                </a>
+                            </li>
+                            <li class="nav-item me-md-2 mb-2 mb-md-0">
                                 <a class="nav-link text-dark fw-medium d-flex align-items-center" asp-controller="User" asp-action="Index">
                                     <i class="bi bi-person-circle fs-5 me-1 text-primary"></i>
                                     <span>Личный кабинет</span>
-                                    <span class="badge bg-primary-subtle text-primary ms-1 small">@User.Identity.Name</span>
+                                    <span class="badge bg-primary-subtle text-primary ms-1 small">@User.Identity!.Name</span>
                                 </a>
                             </li>
                         }
@@ -93,13 +132,6 @@
 
 <main role="main" class="flex-grow-1">
     @RenderBody()
-    <div id="cartContainer">
-        @await Html.PartialAsync(
-            "_CartPartial",
-            Context.Session.GetObject<labwork_71.ViewModels.CartViewModel>("Cart")
-            ?? new labwork_71.ViewModels.CartViewModel()
-                )
-    </div>
 </main>
 
 <footer class="border-top py-3 bg-white text-muted mt-auto">

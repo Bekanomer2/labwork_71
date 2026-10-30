@@ -1,0 +1,56 @@
+@model labwork_71.Models.User
+@{
+    ViewData["Title"] = "Личный кабинет";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card rounded-4 shadow border-0">
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center gap-4 mb-4">
+                        @if (!string.IsNullOrEmpty(Model.AvatarUrl))
+                        {
+                            <img src="@Model.AvatarUrl"
+                                 alt="Аватар"
+                                 class="rounded-circle border"
+                                 style="width:100px;height:100px;object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center"
+                                 style="width:100px;height:100px;">
+                                <i class="bi bi-person-fill text-white fs-1"></i>
+                            </div>
+                        }
+                        <div>
+                            <h4 class="fw-bold mb-1">@Model.UserName</h4>
+                            <span class="badge bg-primary">Пользователь</span>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-0 d-flex align-items-center gap-2">
+                            <i class="bi bi-envelope text-primary"></i>
+                            <div>
+                                <small class="text-muted d-block">Email</small>
+                                <span>@(Model.Email ?? "—")</span>
+                            </div>
+                        </li>
+                        <li class="list-group-item px-0 d-flex align-items-center gap-2">
+                            <i class="bi bi-telephone text-primary"></i>
+                            <div>
+                                <small class="text-muted d-block">Телефон</small>
+                                <span>@(Model.PhoneNumber ?? "—")</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

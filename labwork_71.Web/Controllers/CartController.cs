@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace labwork_71.Controllers;
 
-public class CartController :Controller
+public class CartController : Controller
 {
     private readonly IDishService _dishService;
 
@@ -17,11 +17,11 @@ public class CartController :Controller
     [HttpPost]
     public async Task<IActionResult> Add(int dishId)
     {
-        var dish= await _dishService.GetByIdAsync(dishId);
+        var dish = await _dishService.GetByIdAsync(dishId);
         if (dish == null)
             return NotFound();
 
-        var cart= HttpContext.Session.GetObject<CartViewModel>("Cart");
+        var cart = HttpContext.Session.GetObject<CartViewModel>("Cart");
 
         if (cart == null)
         {
@@ -60,15 +60,16 @@ public class CartController :Controller
         return Json(new
         {
             success = true,
-            message = "Блюдодобавлено в корзину",
-            totalPrice = cart.TotalPrice
+            message = "Блюдо добавлено в корзину",
+            totalPrice = cart.TotalPrice,
+            totalCount = cart.Items.Sum(item => item.Quantity)
         });
     }
 
     [HttpPost]
     public async Task<IActionResult> Remove(int dishId)
     {
-        var cart= HttpContext.Session.GetObject<CartViewModel>("Cart");
+        var cart = HttpContext.Session.GetObject<CartViewModel>("Cart");
         if (cart == null)
             return NotFound();
 
@@ -76,7 +77,7 @@ public class CartController :Controller
         if (cartItem == null)
             return NotFound();
 
-        if (cartItem.Quantity> 1)
+        if (cartItem.Quantity > 1)
         {
             cartItem.Quantity--;
         }
@@ -84,20 +85,25 @@ public class CartController :Controller
         {
             cart.Items.Remove(cartItem);
         }
-        
+
+        if (cart.Items.Count == 0)
+        {
+            cart.CafeId = 0;
+        }
+
         HttpContext.Session.SetObject("Cart", cart);
 
         return Json(new
         {
             success = true,
-            totalPrice = cart.TotalPrice
+            totalPrice = cart.TotalPrice,
+            totalCount = cart.Items.Sum(item => item.Quantity)
         });
     }
 
-    
     public IActionResult Index()
     {
-        var cart= HttpContext.Session.GetObject<CartViewModel>("Cart");
+        var cart = HttpContext.Session.GetObject<CartViewModel>("Cart");
         if (cart == null)
         {
             cart = new CartViewModel();
@@ -105,16 +111,18 @@ public class CartController :Controller
         return View(cart);
     }
 
-    
     [HttpGet]
-    public IActionResult CetCart()
+    public IActionResult GetCart()
     {
-        var cart=HttpContext.Session.GetObject<CartViewModel>("Cart");
+        var cart = HttpContext.Session.GetObject<CartViewModel>("Cart");
         if (cart == null)
         {
-            cart=new CartViewModel();
+            cart = new CartViewModel();
         }
 
         return PartialView("_CartPartial", cart);
     }
+
+    [HttpGet]
+    public IActionResult CetCart() => GetCart();
 }

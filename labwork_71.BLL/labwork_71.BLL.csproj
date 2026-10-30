@@ -11,4 +11,8 @@
       <ProjectReference Include="..\labwork_71.Models\labwork_71.Models.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MailKit" Version="4.18.2" />
+    </ItemGroup>
+
 </Project>

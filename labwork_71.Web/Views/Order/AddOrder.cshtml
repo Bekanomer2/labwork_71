@@ -1,0 +1,100 @@
+﻿@model labwork_71.ViewModels.OrderCreateViewModel
+@{
+    ViewData["Title"] = "Оформление заказа";
+    var cart = ViewBag.Cart as labwork_71.ViewModels.CartViewModel;
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+
+            <h4 class="fw-bold mb-4">
+                <i class="bi bi-bag-check me-2 text-primary"></i>Оформление заказа
+            </h4>
+
+            <div class="row g-4">
+
+                <div class="col-12 col-md-7">
+                    <div class="card rounded-4 shadow-sm border-0">
+                        <div class="card-body p-4">
+                            <h6 class="fw-semibold mb-3">
+                                <i class="bi bi-person me-1 text-primary"></i>Данные получателя
+                            </h6>
+
+                            <form asp-controller="Order" asp-action="AddOrder" method="post">
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden" asp-for="UserId" />
+                                <input type="hidden" asp-for="CafeId" />
+
+                                <div class="mb-3">
+                                    <label asp-for="RecipientName" class="form-label fw-medium">Имя получателя</label>
+                                    <input asp-for="RecipientName" class="form-control rounded-3"
+                                           placeholder="Введите имя" />
+                                    <span asp-validation-for="RecipientName" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="RecipientPhone" class="form-label fw-medium">Телефон</label>
+                                    <input asp-for="RecipientPhone" class="form-control rounded-3"
+                                           placeholder="+996 (___) ___-___" />
+                                    <span asp-validation-for="RecipientPhone" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label asp-for="DeliveryAddress" class="form-label fw-medium">Адрес доставки</label>
+                                    <input asp-for="DeliveryAddress" class="form-control rounded-3"
+                                           placeholder="Улица, дом, квартира" />
+                                    <span asp-validation-for="DeliveryAddress" class="text-danger small"></span>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary rounded-3 w-100 py-2 fw-semibold">
+                                    <i class="bi bi-check2-circle me-1"></i>Подтвердить заказ
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-5">
+                    <div class="card rounded-4 shadow-sm border-0">
+                        <div class="card-body p-4">
+                            <h6 class="fw-semibold mb-3">
+                                <i class="bi bi-cart3 me-1 text-primary"></i>Ваш заказ
+                            </h6>
+
+                            @if (cart != null && cart.Items.Any())
+                            {
+                                <ul class="list-group list-group-flush mb-3">
+                                    @foreach (var item in cart.Items)
+                                    {
+                                        <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <span class="fw-medium">@item.Name</span>
+                                                <small class="text-muted d-block">@item.Quantity x @item.Price сом</small>
+                                            </div>
+                                            <span class="fw-semibold">@(item.Quantity * item.Price) сом</span>
+                                        </li>
+                                    }
+                                </ul>
+                                <div class="d-flex justify-content-between fw-bold border-top pt-3">
+                                    <span>Итого:</span>
+                                    <span class="text-primary fs-5">@cart.TotalPrice сом</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-muted">Корзина пуста</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

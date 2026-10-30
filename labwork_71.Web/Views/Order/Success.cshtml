@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Заказ оформлен";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6 text-center">
+            <div class="card rounded-4 shadow-sm border-0 p-5">
+                <i class="bi bi-check-circle-fill text-success mb-3" style="font-size:4rem;"></i>
+                <h4 class="fw-bold mb-2">Заказ оформлен!</h4>
+                <p class="text-muted mb-4">Подтверждение отправлено на вашу почту.</p>
+                <div class="d-flex gap-2 justify-content-center flex-wrap">
+                    <a asp-controller="Order" asp-action="MyOrders" class="btn btn-outline-primary rounded-3 px-4">
+                        Мои заказы
+                    </a>
+                    <a asp-controller="Cafe" asp-action="Index" class="btn btn-primary rounded-3 px-4">
+                        На главную
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,27 +1,59 @@
 @model labwork_71.ViewModels.CartViewModel
 
-<div class="cart-sidebar">
-    @if (Model.Items.Count == 0)
-    {
-        <p>Корзина пуста</p>
-    }
-    else
-    {
-        foreach (var item in Model.Items)
+@if (Model.Items == null || Model.Items.Count == 0)
+{
+    <div class="text-center py-5 px-3 my-auto">
+        <div class="text-muted mb-3">
+            <i class="bi bi-cart-x fs-1 text-secondary opacity-50"></i>
+        </div>
+        <h6 class="fw-bold text-secondary">Корзина пуста</h6>
+        <p class="text-muted small mb-0">Выберите блюда из меню заведения, чтобы сделать заказ</p>
+    </div>
+}
+else
+{
+    <div class="p-3 flex-grow-1 overflow-y-auto">
+        @foreach (var item in Model.Items)
         {
-            <div class="cart-item">
-                <h5>@item.Name</h5>
-                <p>Цена: @item.Price сом</p>
-                <p>Количество порций/шт: @item.Quantity</p>
-                <p>Общая стоимость: @item.TotalPrice сом</p>
-                <button type="button" class="remove-from cart"
-                        data-dish-id="@item.DishId"> Удалить </button>
+            <div class="card border-0 bg-light rounded-3 p-3 mb-2 shadow-sm">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h6 class="fw-bold mb-0 text-truncate me-2" title="@item.Name">@item.Name</h6>
+                    <button type="button" class="btn btn-sm btn-link text-danger p-0 remove-from-cart"
+                            data-dish-id="@item.DishId" title="Удалить">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-muted small">
+                        <span>@item.Price сом</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle py-0 px-2 remove-from-cart"
+                                data-dish-id="@item.DishId" title="Уменьшить">
+                            <i class="bi bi-dash"></i>
+                        </button>
+                        <span class="fw-semibold px-2">@item.Quantity</span>
+                        <button type="button" class="btn btn-sm btn-outline-primary rounded-circle py-0 px-2 add-to-cart"
+                                data-dish-id="@item.DishId" title="Увеличить">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="text-end mt-2 pt-2 border-top border-secondary-subtle">
+                    <span class="small text-muted me-1">Сумма:</span>
+                    <strong class="text-primary">@item.TotalPrice сом</strong>
+                </div>
             </div>
         }
+    </div>
 
-        <hr/>
-        <strong>Общая сумма: @Model.TotalPrice сом</strong>
-
-    }
-
-</div>
+    <div class="border-top p-3 bg-white mt-auto shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted fw-medium">Итого к оплате:</span>
+            <span class="fw-bold fs-5 text-primary">@Model.TotalPrice сом</span>
+        </div>
+        <a asp-controller="Order" asp-action="AddOrder" class="btn btn-primary w-100 rounded-3 py-2 fw-semibold shadow-sm">
+            <i class="bi bi-bag-check me-1"></i>Оформить заказ
+        </a>
+    </div>
+}

@@ -39,6 +39,11 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDishRepository, DishRepository>();
 builder.Services.AddScoped<IDishService, DishService>();
 
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

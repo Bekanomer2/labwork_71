@@ -1,0 +1,91 @@
+﻿@model List<labwork_71.Models.Order>
+@{
+    ViewData["Title"] = "Мои заказы";
+}
+
+<div class="container py-5">
+
+    <h4 class="fw-bold mb-4">
+        <i class="bi bi-clock-history me-2 text-primary"></i>Мои заказы
+    </h4>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-bag-x text-muted" style="font-size:3rem;"></i>
+            <p class="text-muted mt-3 fs-5">У вас ещё нет заказов</p>
+            <a asp-controller="Cafe" asp-action="Index" class="btn btn-primary rounded-3 px-4">
+                Перейти к заведениям
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var order in Model)
+            {
+                <div class="col-12">
+                    <div class="card rounded-4 shadow-sm border-0">
+                        <div class="card-body p-4">
+
+                            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+                                <div>
+                                    <span class="fw-bold fs-6">Заказ #@order.Id</span>
+                                    <small class="text-muted ms-2">
+                                        @order.OrderDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                    </small>
+                                </div>
+                                <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2">
+                                    Принят
+                                </span>
+                            </div>
+
+                            <div class="row g-2 text-muted small mb-3">
+                                <div class="col-12 col-md-4">
+                                    <i class="bi bi-person me-1"></i>@order.RecipientName
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <i class="bi bi-telephone me-1"></i>@order.RecipientPhone
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <i class="bi bi-geo-alt me-1"></i>@order.DeliveryAddress
+                                </div>
+                            </div>
+
+                            @if (order.OrderItems != null && order.OrderItems.Any())
+                            {
+                                <div class="border-top pt-3">
+                                    <h6 class="fw-semibold small text-secondary mb-2">Содержимое заказа:</h6>
+                                    <ul class="list-group list-group-flush mb-2">
+                                        @foreach (var item in order.OrderItems)
+                                        {
+                                            <li class="list-group-item px-0 py-1 d-flex justify-content-between align-items-center border-0 bg-transparent">
+                                                <div>
+                                                    <span class="fw-medium">@(item.Dish?.Name ?? $"Блюдо #{item.ProductId}")</span>
+                                                    <span class="text-muted small ms-2">@item.Quantity шт.</span>
+                                                </div>
+                                                @if (item.Dish != null)
+                                                {
+                                                    <span class="fw-semibold">@(item.Quantity * item.Dish.Price) сом</span>
+                                                }
+                                            </li>
+                                        }
+                                    </ul>
+                                    @if (order.OrderItems.Any(i => i.Dish != null))
+                                    {
+                                        <div class="d-flex justify-content-between fw-bold border-top pt-2">
+                                            <span>Итого:</span>
+                                            <span class="text-primary fs-5">@order.OrderItems.Sum(i => i.Quantity * (i.Dish?.Price ?? 0)) сом</span>
+                                        </div>
+                                    }
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</div>
