@@ -26,6 +26,9 @@ builder.Services.AddDbContext<FoodOrdersContext>(options => options.UseNpgsql(co
 
 builder.Services.AddScoped<IValidatorRepository, ValidatorRepository>();
 builder.Services.AddScoped<IValidatorService, Validator>();
+builder.Services.AddScoped<IDishRepository, DishRepository>();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 builder.Services.AddScoped<ICafeRepository, CafeRepository>();
 builder.Services.AddScoped<ICafeService, CafeService>();
@@ -48,6 +51,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 

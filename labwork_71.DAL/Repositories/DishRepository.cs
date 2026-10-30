@@ -1,4 +1,4 @@
-﻿using labwork_71.DAL.Data;
+using labwork_71.DAL.Data;
 using labwork_71.DAL.Repositories.Interfaces;
 using labwork_71.Models;
 using Microsoft.EntityFrameworkCore;
