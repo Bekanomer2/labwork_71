@@ -107,7 +107,7 @@ public class CartController :Controller
 
     
     [HttpGet]
-    public IActionResult CetCart()
+    public IActionResult GetCart()
     {
         var cart=HttpContext.Session.GetObject<CartViewModel>("Cart");
         if (cart == null)

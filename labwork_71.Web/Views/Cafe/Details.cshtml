@@ -40,6 +40,14 @@
                             <h5>@dish.Name</h5>
                             <p>@dish.Description</p>
                             <strong>@dish.Price</strong>
+                            @if (!User.IsInRole("admin"))
+                            {
+                                <button type="button"
+                                        class="btn btn-primary add-to-cart mt-3"
+                                        data-dish-id="@dish.Id"
+                                        data-cafe-id="@Model.Id">Добавить в корзину
+                                    </button>
+                            }
 
                             @if (User.IsInRole("admin"))
                             {

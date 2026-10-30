@@ -6,16 +6,16 @@ $(document).ready(function(){
     console.log("JavaScript подключен");
     
     $(document).on("click", ".add-to-cart", function(){
-        const dishId= $(this).data("dishId");
+        const dishId= $(this).data("dish-id");
         
         $.ajax({
-            url:"Cart/Add",
+            url:"/Cart/Add",
             type:"POST",
             data:{dishId:dishId},
             success:function(response){
                 if(response.success){
                     updateCart();
-                };
+                }
             },
             error:function(request){
                 const response=request.responseJSON;
@@ -30,7 +30,7 @@ $(document).ready(function(){
     });
     function updateCart(){
         $.ajax({
-            url:"Cart/GetCart",
+            url:"/Cart/GetCart",
             type:"GET",
             success:function(html){
                 $("#cartContainer").html(html);
@@ -43,7 +43,7 @@ $(document).ready(function(){
     $(document).on("click", ".remove-from-cart", function(){
         const dishId= $(this).data("dishId");
         $.ajax({
-            url:"Cart/Remove",
+            url:"/Cart/Remove",
             type:"POST",
             data:{dishId:dishId},
             

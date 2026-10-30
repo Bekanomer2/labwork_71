@@ -4,7 +4,7 @@ using labwork_71.Models;
 
 namespace labwork_71.BLL.Services;
 
-public class DishService : IDishService
+public class DishService:  IDishService
 {
     private readonly IDishRepository _dishRepository;
 

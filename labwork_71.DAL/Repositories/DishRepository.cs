@@ -5,14 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace labwork_71.DAL.Repositories;
 
-public class DishRepository : IDishRepository
+
+public class DishRepository: IDishRepository
 {
     private readonly FoodOrdersContext _context;
+    
 
     public DishRepository(FoodOrdersContext context)
     {
         _context = context;
     }
+    
 
     public async Task<List<Dish>> GetAllAsync()
     {
@@ -34,5 +37,6 @@ public class DishRepository : IDishRepository
     {
         _context.Dishes.Remove(dish);
         await _context.SaveChangesAsync();
+
     }
 }

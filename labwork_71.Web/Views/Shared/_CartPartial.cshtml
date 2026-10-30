@@ -1,27 +1,39 @@
 @model labwork_71.ViewModels.CartViewModel
 
 <div class="cart-sidebar">
+    <h4 class="cart-title">🛒 Моя корзина</h4>
     @if (Model.Items.Count == 0)
     {
-        <p>Корзина пуста</p>
+        <div class="empty-cart"></div>
+        <span>🛍️</span>
+        <p>Корзина пока пуста</p>
+        <small>Выберите что-нибудь вкусное</small>
     }
     else
     {
         foreach (var item in Model.Items)
         {
             <div class="cart-item">
-                <h5>@item.Name</h5>
-                <p>Цена: @item.Price сом</p>
-                <p>Количество порций/шт: @item.Quantity</p>
-                <p>Общая стоимость: @item.TotalPrice сом</p>
-                <button type="button" class="remove-from cart"
-                        data-dish-id="@item.DishId"> Удалить </button>
+                <div class="cart-item-info">
+                    <h5>@item.Name</h5>
+                    <span>@item.Price сом × @item.Quantity</span>
+                </div>
+                <div class="cart-item-bottom">
+                    <strong>@item.TotalPrice сом</strong>
+                    <button type="button"
+                            class="remove-from-cart"
+                            data-dish-id="@item.DishId">
+                        Удалить
+                    </button>
+                    <input type="hidden" value="@item.DishId" />
+                </div>
             </div>
         }
 
-        <hr/>
-        <strong>Общая сумма: @Model.TotalPrice сом</strong>
-
+        <div class="cart-total">
+            <span>Итого:</span>
+            <strong>@Model.TotalPrice сом</strong>
+        </div>
     }
 
 </div>
